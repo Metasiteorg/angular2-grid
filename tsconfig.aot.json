@@ -9,10 +9,9 @@
 		"noImplicitAny": false,
 		"declaration": true,
 		"rootDir": "./src",
-		"outDir": "./dist",
+		"outDir": "./dist/aot",
 		"typeRoots": [
-            "node_modules/@types",
-            "typings"
+            "node_modules/@types"
         ],
         "types": [
         	"core-js",
