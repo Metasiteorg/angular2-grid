@@ -37,11 +37,11 @@ export class NgGridItem implements OnInit, OnDestroy {
 		borderSize: 25
 	};
 
-	public isFixed: boolean = false;
-	public isDraggable: boolean = true;
-	public isResizable: boolean = true;
-	public minWidth: number = 0;
-	public minHeight: number = 0;
+	public isFixed = false;
+	public isDraggable = true;
+	public isResizable = true;
+	public minWidth = 0;
+	public minHeight = 0;
 
 	//	Private variables
 	private _payload: any;
@@ -56,13 +56,13 @@ export class NgGridItem implements OnInit, OnDestroy {
 	private _elemHeight: number;
 	private _elemLeft: number;
 	private _elemTop: number;
-	private _added: boolean = false;
+	private _added = false;
 	private _differ: KeyValueDiffer;
 	private _cascadeMode: string;
-	private _maxCols: number = 0;
-	private _minCols: number = 0;
-	private _maxRows: number = 0;
-	private _minRows: number = 0;
+	private _maxCols = 0;
+	private _minCols = 0;
+	private _maxRows = 0;
+	private _minRows = 0;
 
 	//	[ng-grid-item] handler
 	set config(v: NgGridItemConfig) {
@@ -343,7 +343,7 @@ export class NgGridItem implements OnInit, OnDestroy {
 		return false;
 	}
 
-	public setSize(newSize: NgGridItemSize, update: boolean = true): void {
+	public setSize(newSize: NgGridItemSize, update = true): void {
 		newSize = this.fixResize(newSize);
 		this._size = newSize;
 		if (update) this._recalculateDimensions();
@@ -351,7 +351,7 @@ export class NgGridItem implements OnInit, OnDestroy {
 		this.onItemChange.emit(this.getEventOutput());
 	}
 
-	public setGridPosition(gridPosition: NgGridItemPosition, update: boolean = true): void {
+	public setGridPosition(gridPosition: NgGridItemPosition, update = true): void {
 		this._currentPosition = gridPosition;
 		if (update) this._recalculatePosition();
 

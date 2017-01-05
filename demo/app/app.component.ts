@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {NgGrid, NgGridItem} from 'angular2-grid';
+import {NgGrid, NgGridItem} from '../../src';
 
 @Component({
     selector: 'my-app',

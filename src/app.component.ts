@@ -16,8 +16,8 @@ interface Box {
 // Component controller
 export class MyAppComponent {
 	private boxes: Array<Box> = [];
-	private rgb: string = '#efefef';
-	private curNum: number = 5;
+	private rgb = '#efefef';
+	private curNum = 5;
 	private gridConfig: NgGridConfig = <NgGridConfig>{
 		'margins': [5],
 		'draggable': true,
@@ -41,7 +41,7 @@ export class MyAppComponent {
 		'zoom_on_drag': false,
 		'limit_to_screen': true
 	};
-	private curItemCheck: number = 0;
+	private curItemCheck = 0;
 	private itemPositions: Array<any> = [];
 	
 	constructor() {

@@ -33,8 +33,8 @@ gulp.task('clean', function (done) {
 
 gulp.task('ngc', function(done) {
 	exec(path.join("node_modules", ".bin", "ngc") + ' -p tsconfig.aot.json', function (err, stdout, stderr) {
-		if (stdout) console.log(stdout);
-		if (stderr) console.error(stderr);
+		console.log(stdout);
+		console.error(stderr);
 		done(err);
 	});
 });
@@ -103,10 +103,6 @@ gulp.task('clean', function(done) {
 
 gulp.task('build', ['clean'], function() {
 	return gulp.start('libs', 'html', 'css', 'ts', 'ngc');
-});
-
-gulp.task('build-aot', ['clean'], function() {
-	return gulp.start('css', 'ngc');
 });
 
 gulp.task('build-aot', ['clean'], function() {

@@ -29,53 +29,53 @@ export class NgGrid implements OnInit, DoCheck, OnDestroy {
 	@Output() public onItemChange: EventEmitter<Array<NgGridItemEvent>> = new EventEmitter<Array<NgGridItemEvent>>();
 
 	//	Public variables
-	public colWidth: number = 250;
-	public rowHeight: number = 250;
-	public minCols: number = 1;
-	public minRows: number = 1;
-	public marginTop: number = 10;
-	public marginRight: number = 10;
-	public marginBottom: number = 10;
-	public marginLeft: number = 10;
-	public isDragging: boolean = false;
-	public isResizing: boolean = false;
-	public autoStyle: boolean = true;
-	public resizeEnable: boolean = true;
-	public dragEnable: boolean = true;
-	public cascade: string = 'up';
-	public minWidth: number = 100;
-	public minHeight: number = 100;
+	public colWidth = 250;
+	public rowHeight = 250;
+	public minCols = 1;
+	public minRows = 1;
+	public marginTop = 10;
+	public marginRight = 10;
+	public marginBottom = 10;
+	public marginLeft = 10;
+	public isDragging = false;
+	public isResizing = false;
+	public autoStyle = true;
+	public resizeEnable = true;
+	public dragEnable = true;
+	public cascade = 'up';
+	public minWidth = 100;
+	public minHeight = 100;
 
 	//	Private variables
 	private _items: Array<NgGridItem> = [];
 	private _draggingItem: NgGridItem = null;
 	private _resizingItem: NgGridItem = null;
-	private _resizeDirection: string = null;
+	private _resizeDirection = null;
 	private _itemGrid: { [key: number]: { [key: number]: NgGridItem } } = {};//{ 1: { 1: null } };
 	private _containerWidth: number;
 	private _containerHeight: number;
-	private _maxCols: number = 0;
-	private _maxRows: number = 0;
-	private _visibleCols: number = 0;
-	private _visibleRows: number = 0;
-	private _setWidth: number = 250;
-	private _setHeight: number = 250;
+	private _maxCols = 0;
+	private _maxRows = 0;
+	private _visibleCols = 0;
+	private _visibleRows = 0;
+	private _setWidth = 250;
+	private _setHeight = 250;
 	private _posOffset: NgGridRawPosition = null;
-	private _adding: boolean = false;
+	private _adding = false;
 	private _placeholderRef: ComponentRef<NgGridPlaceholder> = null;
-	private _fixToGrid: boolean = false;
-	private _autoResize: boolean = false;
+	private _fixToGrid = false;
+	private _autoResize = false;
 	private _differ: KeyValueDiffer;
-	private _destroyed: boolean = false;
-	private _maintainRatio: boolean = false;
+	private _destroyed = false;
+	private _maintainRatio = false;
 	private _aspectRatio: number;
-	private _preferNew: boolean = false;
-	private _zoomOnDrag: boolean = false;
-	private _limitToScreen: boolean = false;
-	private _curMaxRow: number = 0;
-	private _curMaxCol: number = 0;
-	private _dragReady: boolean = false;
-	private _resizeReady: boolean = false;
+	private _preferNew = false;
+	private _zoomOnDrag = false;
+	private _limitToScreen = false;
+	private _curMaxRow = 0;
+	private _curMaxCol = 0;
+	private _dragReady = false;
+	private _resizeReady = false;
 
 	//	Default config
 	private static CONST_DEFAULT_CONFIG: NgGridConfig = {
@@ -350,7 +350,7 @@ export class NgGrid implements OnInit, DoCheck, OnDestroy {
 	public removeItem(ngItem: NgGridItem): void {
 		this._removeFromGrid(ngItem);
 
-		for (let x: number = 0; x < this._items.length; x++) {
+		for (let x = 0; x < this._items.length; x++) {
 			if (this._items[x] == ngItem) {
 				this._items.splice(x, 1);
 			}
@@ -458,9 +458,9 @@ export class NgGrid implements OnInit, DoCheck, OnDestroy {
 		if (this._autoResize) {
 			if (this._maxCols > 0 || this._visibleCols > 0) {
 				var maxCols = this._maxCols > 0 ? this._maxCols : this._visibleCols;
-				var maxWidth: number = this._ngEl.nativeElement.getBoundingClientRect().width;
+				var maxWidth = this._ngEl.nativeElement.getBoundingClientRect().width;
 
-				var colWidth: number = Math.floor(maxWidth / maxCols);
+				var colWidth = Math.floor(maxWidth / maxCols);
 				colWidth -= (this.marginLeft + this.marginRight);
 				if (colWidth > 0) this.colWidth = colWidth;
 
@@ -475,9 +475,9 @@ export class NgGrid implements OnInit, DoCheck, OnDestroy {
 		if (this._autoResize) {
 			if (this._maxRows > 0 || this._visibleRows > 0) {
 				var maxRows = this._maxRows > 0 ? this._maxRows : this._visibleRows;
-				var maxHeight: number = window.innerHeight - this.marginTop - this.marginBottom;
+				var maxHeight = window.innerHeight - this.marginTop - this.marginBottom;
 
-				var rowHeight: number = Math.max(Math.floor(maxHeight / maxRows), this.minHeight);
+				var rowHeight = Math.max(Math.floor(maxHeight / maxRows), this.minHeight);
 				rowHeight -= (this.marginTop + this.marginBottom);
 				if (rowHeight > 0) this.rowHeight = rowHeight;
 
@@ -770,9 +770,9 @@ export class NgGrid implements OnInit, DoCheck, OnDestroy {
 	private _getCollisions(pos: NgGridItemPosition, dims: NgGridItemSize): Array<NgGridItem> {
 		const returns: Array<NgGridItem> = [];
 
-		for (let j: number = 0; j < dims.y; j++) {
+		for (let j = 0; j < dims.y; j++) {
 			if (this._itemGrid[pos.row + j] != null) {
-				for (let i: number = 0; i < dims.x; i++) {
+				for (let i = 0; i < dims.x; i++) {
 					if (this._itemGrid[pos.row + j][pos.col + i] != null) {
 						const item: NgGridItem = this._itemGrid[pos.row + j][pos.col + i];
 
@@ -791,7 +791,7 @@ export class NgGrid implements OnInit, DoCheck, OnDestroy {
 		return returns;
 	}
 
-	private _fixGridCollisions(pos: NgGridItemPosition, dims: NgGridItemSize, shouldSave: boolean = false): void {
+	private _fixGridCollisions(pos: NgGridItemPosition, dims: NgGridItemSize, shouldSave = false): void {
 		while (this._hasGridCollision(pos, dims)) {
 			const collisions: Array<NgGridItem> = this._getCollisions(pos, dims);
 
@@ -804,7 +804,7 @@ export class NgGrid implements OnInit, DoCheck, OnDestroy {
 				case 'up':
 				case 'down':
 				default:
-					const oldRow: number = itemPos.row;
+					const oldRow = itemPos.row;
 					itemPos.row = pos.row + dims.y;
 
 					if (!this._isWithinBoundsY(itemPos, itemDims)) {
@@ -814,7 +814,7 @@ export class NgGrid implements OnInit, DoCheck, OnDestroy {
 					break;
 				case 'left':
 				case 'right':
-					const oldCol: number = itemPos.col;
+					const oldCol = itemPos.col;
 					itemPos.col = pos.col + dims.x;
 
 					if (!this._isWithinBoundsX(itemPos, itemDims)) {
@@ -853,16 +853,16 @@ export class NgGrid implements OnInit, DoCheck, OnDestroy {
 		const columnMax: { [col: number]: number } = {};
 		const largestGap: { [col: number]: number } = {};
 
-		for (let i: number = 1; i <= maxCols; i++) {
+		for (let i = 1; i <= maxCols; i++) {
 			columnMax[i] = 1;
 			largestGap[i] = 1;
 		}
 
 		const curPos: NgGridItemPosition = { col: 1, row: 1 };
-		let currentRow: number = 1;
+		let currentRow = 1;
 
 		const willCascade: (item: NgGridItem, col: number) => boolean = (item: NgGridItem, col: number) => {
-			for (let i: number = col; i < col + item.sizex; i++) {
+			for (let i = col; i < col + item.sizex; i++) {
 				if (columnMax[i] == currentRow) return true;
 			}
 
@@ -883,7 +883,7 @@ export class NgGrid implements OnInit, DoCheck, OnDestroy {
 				length: 0,
 			};
 
-			for (let col: number = 1; col <= maxCols; col++) {
+			for (let col = 1; col <= maxCols; col++) {
 				if (columnMax[col] <= currentRow) {
 					if (newBlock.length == 0) {
 						newBlock.start = col;
@@ -914,7 +914,7 @@ export class NgGrid implements OnInit, DoCheck, OnDestroy {
 
 				if (item.row > currentRow) break;
 
-				let fits: boolean = false;
+				let fits = false;
 				for (let x in tempColumns) {
 					if (item.sizex <= tempColumns[x]) {
 						tempColumns[x] -= item.sizex;
@@ -934,7 +934,7 @@ export class NgGrid implements OnInit, DoCheck, OnDestroy {
 
 			if (currentItems.length > 0) {
 				const itemPositions: Array<number> = [];
-				let lastPosition: number = maxCols;
+				let lastPosition = maxCols;
 
 				for (let i = currentItems.length - 1; i >= 0; i--) {
 					let maxPosition = 1;
@@ -953,8 +953,8 @@ export class NgGrid implements OnInit, DoCheck, OnDestroy {
 					lastPosition = itemPositions[i];
 				}
 
-				let minPosition: number = 1;
-				let currentItem: number = 0;
+				let minPosition = 1;
+				let currentItem = 0;
 
 				while (currentItems.length > 0) {
 					const item: NgGridItem = currentItems.shift();
@@ -972,7 +972,7 @@ export class NgGrid implements OnInit, DoCheck, OnDestroy {
 					minPosition = item.currentCol + item.sizex;
 					currentItem++;
 
-					for (let i: number = item.currentCol; i < item.currentCol + item.sizex; i++) {
+					for (let i = item.currentCol; i < item.currentCol + item.sizex; i++) {
 						columnMax[i] = item.currentRow + item.sizey;
 					}
 				}
@@ -981,12 +981,12 @@ export class NgGrid implements OnInit, DoCheck, OnDestroy {
 
 				item.setGridPosition({ col: 1, row: currentRow });
 
-				for (let i: number = item.currentCol; i < item.currentCol + item.sizex; i++) {
+				for (let i = item.currentCol; i < item.currentCol + item.sizex; i++) {
 					columnMax[i] = item.currentRow + item.sizey;
 				}
 			}
 
-			let newRow: number = 0;
+			let newRow = 0;
 
 			for (let x in columnMax) {
 				if (columnMax[x] > currentRow && (newRow == 0 || columnMax[x] < newRow)) {
@@ -998,7 +998,7 @@ export class NgGrid implements OnInit, DoCheck, OnDestroy {
 		}
 	}
 
-	private _cascadeGrid(pos?: NgGridItemPosition, dims?: NgGridItemSize, shouldSave: boolean = true): void {
+	private _cascadeGrid(pos?: NgGridItemPosition, dims?: NgGridItemSize, shouldSave = true): void {
 		if (this._destroyed) return;
 		if (pos && !dims) throw new Error('Cannot cascade with only position and not dimensions');
 
@@ -1015,13 +1015,13 @@ export class NgGrid implements OnInit, DoCheck, OnDestroy {
 			case 'down':
 				const lowRow: Array<number> = [0];
 
-				for (let i: number = 1; i <= this._curMaxCol; i++)
+				for (let i = 1; i <= this._curMaxCol; i++)
 					lowRow[i] = 1;
 
-				for (let r: number = 1; r <= this._curMaxRow; r++) {
+				for (let r = 1; r <= this._curMaxRow; r++) {
 					if (this._itemGrid[r] == undefined) continue;
 
-					for (let c: number = 1; c <= this._curMaxCol; c++) {
+					for (let c = 1; c <= this._curMaxCol; c++) {
 						if (this._itemGrid[r] == undefined) break;
 						if (r < lowRow[c]) continue;
 
@@ -1034,9 +1034,9 @@ export class NgGrid implements OnInit, DoCheck, OnDestroy {
 
 							if (itemPos.col != c || itemPos.row != r) continue;	//	If this is not the element's start
 
-							let lowest: number = lowRow[c];
+							let lowest = lowRow[c];
 
-							for (let i: number = 1; i < itemDims.x; i++) {
+							for (let i = 1; i < itemDims.x; i++) {
 								lowest = Math.max(lowRow[(c + i)], lowest);
 							}
 
@@ -1063,7 +1063,7 @@ export class NgGrid implements OnInit, DoCheck, OnDestroy {
 								this._addToGrid(item);
 							}
 
-							for (let i: number = 0; i < itemDims.x; i++) {
+							for (let i = 0; i < itemDims.x; i++) {
 								lowRow[c + i] = lowest + itemDims.y;	//	Update the lowest row to be below the item
 							}
 						}
@@ -1074,13 +1074,13 @@ export class NgGrid implements OnInit, DoCheck, OnDestroy {
 			case 'right':
 				const lowCol: Array<number> = [0];
 
-				for (let i: number = 1; i <= this._curMaxRow; i++)
+				for (let i = 1; i <= this._curMaxRow; i++)
 					lowCol[i] = 1;
 
-				for (let r: number = 1; r <= this._curMaxRow; r++) {
+				for (let r = 1; r <= this._curMaxRow; r++) {
 					if (this._itemGrid[r] == undefined) continue;
 
-					for (let c: number = 1; c <= this._curMaxCol; c++) {
+					for (let c = 1; c <= this._curMaxCol; c++) {
 						if (this._itemGrid[r] == undefined) break;
 						if (c < lowCol[r]) continue;
 
@@ -1091,9 +1091,9 @@ export class NgGrid implements OnInit, DoCheck, OnDestroy {
 
 							if (itemPos.col != c || itemPos.row != r) continue;	//	If this is not the element's start
 
-							let lowest: number = lowCol[r];
+							let lowest = lowCol[r];
 
-							for (let i: number = 1; i < itemDims.y; i++) {
+							for (let i = 1; i < itemDims.y; i++) {
 								lowest = Math.max(lowCol[(r + i)], lowest);
 							}
 
@@ -1120,7 +1120,7 @@ export class NgGrid implements OnInit, DoCheck, OnDestroy {
 								this._addToGrid(item);
 							}
 
-							for (let i: number = 0; i < itemDims.y; i++) {
+							for (let i = 0; i < itemDims.y; i++) {
 								lowCol[r + i] = lowest + itemDims.x;	//	Update the lowest col to be below the item
 							}
 						}
@@ -1180,10 +1180,10 @@ export class NgGrid implements OnInit, DoCheck, OnDestroy {
 			pos = item.getGridPosition();
 		}
 
-		for (let j: number = 0; j < dims.y; j++) {
+		for (let j = 0; j < dims.y; j++) {
 			if (this._itemGrid[pos.row + j] == null) this._itemGrid[pos.row + j] = {};
 
-			for (let i: number = 0; i < dims.x; i++) {
+			for (let i = 0; i < dims.x; i++) {
 				this._itemGrid[pos.row + j][pos.col + i] = item;
 
 				this._updateSize(pos.col + dims.x - 1, pos.row + dims.y - 1);
@@ -1203,8 +1203,8 @@ export class NgGrid implements OnInit, DoCheck, OnDestroy {
 		col = (col == undefined) ? this._getMaxCol() : col;
 		row = (row == undefined) ? this._getMaxRow() : row;
 
-		let maxCol: number = Math.max(this._curMaxCol, col);
-		let maxRow: number = Math.max(this._curMaxRow, row);
+		let maxCol = Math.max(this._curMaxCol, col);
+		let maxRow = Math.max(this._curMaxRow, row);
 
 		if (maxCol != this._curMaxCol || maxRow != this._curMaxRow) {
 			this._curMaxCol = maxCol;
@@ -1230,8 +1230,8 @@ export class NgGrid implements OnInit, DoCheck, OnDestroy {
 
 		const refPos: any = this._ngEl.nativeElement.getBoundingClientRect();
 
-		let left: number = e.clientX - refPos.left;
-		let top: number = e.clientY - refPos.top;
+		let left = e.clientX - refPos.left;
+		let top = e.clientY - refPos.top;
 
 		if (this.cascade == 'down') top = refPos.top + refPos.height - e.clientY;
 		if (this.cascade == 'right') left = refPos.left + refPos.width - e.clientX;
@@ -1259,7 +1259,7 @@ export class NgGrid implements OnInit, DoCheck, OnDestroy {
 	}
 
 	private _getContainerColumns(): number {
-		const maxWidth: number = this._ngEl.nativeElement.getBoundingClientRect().width;
+		const maxWidth = this._ngEl.nativeElement.getBoundingClientRect().width;
 		return Math.floor(maxWidth / (this.colWidth + this.marginLeft + this.marginRight));
 	}
 
